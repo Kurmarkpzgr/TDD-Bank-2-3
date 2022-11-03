@@ -139,9 +139,10 @@ class BankTest {
     assertThat(result.getAmount()).isEqualTo(inputMoney.getAmount() * 1000);
   }
 
-  @Test
-  void bank_exchangeWonToDollar() {
-    Money inputMoney = new Money(Currency.WON, 4321);
+  @ParameterizedTest
+  @ValueSource(doubles = {431, 2352, 1000, 435000})
+  void bank_exchangeWonToDollar(double amount) {
+    Money inputMoney = new Money(Currency.WON, amount);
 
     Money result = bank.exchangeWonToDollar(inputMoney);
 

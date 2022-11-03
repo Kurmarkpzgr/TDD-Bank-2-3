@@ -74,7 +74,7 @@ public class Bank {
   public Money exchangeProcess(Money inputMoney, Currency exchangeToThis) {
     if (inputMoney.getCurrency() != exchangeToThis) {
       inputMoney = new Money(inputMoney.getCurrency(),
-          inputMoney.getAmount() - exchangeFee(inputMoney));
+              inputMoney.getAmount() - exchangeFee(inputMoney));
 
       if (inputMoney.getCurrency() == Currency.WON) {
         return exchangeWonToDollar(inputMoney);
@@ -107,12 +107,6 @@ public class Bank {
     return inputMoney.getAmount() * exchangeFee;
   }
 
-
-  public void checkInvalidInput(Money inputMoney) {
-    if (inputMoney.getAmount() < 0) {
-      throw new InvalidInputException(inputMoney.getAmount());
-    }
-  }
 
   public Customer getCustomerData(String customerId) {
     Customer customer;
