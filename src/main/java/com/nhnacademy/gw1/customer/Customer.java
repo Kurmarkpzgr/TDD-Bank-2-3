@@ -2,8 +2,6 @@ package com.nhnacademy.gw1.customer;
 
 import com.nhnacademy.gw1.money.Currency;
 import com.nhnacademy.gw1.money.Money;
-import com.nhnacademy.gw1.money.MoneyS;
-import com.nhnacademy.gw1.money.Won;
 
 import java.util.ArrayList;
 import java.util.List;

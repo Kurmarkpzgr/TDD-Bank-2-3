@@ -36,28 +36,25 @@ public class Bank {
     }
   }
   public void depositProcess(Customer customer, Money inputMoney){
-
     Currency currency = inputMoneyTypeCheck(inputMoney);
-
 
     Money originalBalance = customer.getBalance(currency);
 
     deposit(originalBalance, inputMoney);
-
   }
-  private void exchangeProcess(Money inputMoney) {
-  }
-
-  private void withdrawProcess(Customer customer, Money inputMoney) {
-
-  }
-
   public double deposit(Money originalBalance, Money inputMoney) {
     return originalBalance.getAmount() + inputMoney.getAmount();
   }
 
   public Currency inputMoneyTypeCheck(Money inputMoney) {
     return inputMoney.getCurrency();
+  }
+
+  private void exchangeProcess(Money inputMoney) {
+  }
+
+  private void withdrawProcess(Customer customer, Money inputMoney) {
+
   }
   public void checkInvalidInput(Money inputMoney) {
     if(inputMoney.getAmount() < 0) {
