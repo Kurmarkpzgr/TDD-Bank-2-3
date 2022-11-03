@@ -1,6 +1,11 @@
 package com.nhnacademy.gw1.customer;
 
+import com.nhnacademy.gw1.money.Currency;
 import com.nhnacademy.gw1.money.Money;
+import com.nhnacademy.gw1.money.MoneyS;
+import com.nhnacademy.gw1.money.Won;
+
+import java.util.ArrayList;
 import java.util.List;
 
 public class Customer {
@@ -8,19 +13,20 @@ public class Customer {
   private String password;
 
   private List<Money> balance;
-  private final int WON =0;
-  private final int DOLLAR =1;
+
 
   public Customer(String customerId, String password) {
     this.customerId = customerId;
     this.password = password;
+
+    balance = new ArrayList<>();
   }
 
   public String getCustomerId() {
     return this.customerId;
   }
 
-  public Money getWonBalance() {
-    return balance.get(WON);
+  public Money getBalance(Currency balanceCurrency) {
+    return balance.get(balanceCurrency.ordinal());
   }
 }

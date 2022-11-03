@@ -9,6 +9,7 @@ import static org.mockito.Mockito.when;
 import com.nhnacademy.gw1.customer.Customer;
 import com.nhnacademy.gw1.customer.CustomerRepository;
 import com.nhnacademy.gw1.exception.InvalidInputException;
+import com.nhnacademy.gw1.money.Currency;
 import com.nhnacademy.gw1.money.Money;
 import com.nhnacademy.gw1.money.Won;
 import org.junit.jupiter.api.BeforeEach;
@@ -26,7 +27,7 @@ class BankTest {
   @BeforeEach
   void setUp() {
     repository = mock(CustomerRepository.class);
-    bank = new Bank();
+    bank = new Bank(repository);
 
     String customerId = "customerOne";
     String password = "validPw";
@@ -37,10 +38,12 @@ class BankTest {
   //입금 성공 실패
   @Test
   void bank_depositSuccess() {
-    Money inputMoney =  new Won(1000);
+    Currency currencyType = Currency.WON;
+    Money inputMoney =  new Money(currencyType, 1000);
 
     when(repository.findById(customer.getCustomerId())).thenReturn(customer);
-    Money customerBalance = customer.get();
+
+    Money customerBalance = customer.getBalance(currencyType);
 
     double result = bank.deposit(customerBalance, inputMoney);
     assertThat(result).isNotNull();
@@ -57,6 +60,10 @@ class BankTest {
     assertThatThrownBy(()-> bank.deposit(customerBalance, inputMoney))
         .isInstanceOf(InvalidInputException.class)
         .hasMessageContainingAll("Invalid money input Exception", inputMoney.toString());
+  }
+  @Test
+  void bank_depositFailure_NotEqualCurrency() {
+
   }
 
   //금액 비교 성공 실패

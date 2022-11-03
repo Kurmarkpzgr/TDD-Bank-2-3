@@ -1,8 +1,15 @@
 package com.nhnacademy.gw1.money;
 
-public interface Money {
-  double getMoney();
+public class Money {
+    Currency currency;
+    double amount;
+    public Money(Currency currency, double amount) {
+        this.currency = currency;
+        this.amount = amount;
+    }
 
-  double addMoney(Money inputMoney);
-  double surMoney(Money outputMoney);
+    public double getAmount(){
+        return this.amount;
+    }
+    public Currency getCurrency() {return this.currency; }
 }
