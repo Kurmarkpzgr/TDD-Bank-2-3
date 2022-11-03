@@ -56,12 +56,9 @@ class BankTest {
   @Test
   void bank_invalidInput_thenThrowInvalidInputException() {
     Currency currencyType = Currency.WON;
-    Money inputMoney = new Money(currencyType, 1000);
+    Money inputMoney = new Money(currencyType, -1000);
 
-    when(repository.findById(customer.getCustomerId())).thenReturn(customer);
-    Money customerBalance = customer.getBalance(inputMoney.getCurrency());
-
-    assertThatThrownBy(() -> bank.mainProcess(customer.getCustomerId(), inputMoney, 1))
+    assertThatThrownBy(() -> bank.checkInvalidInput(inputMoney))
         .isInstanceOf(InvalidInputException.class)
         .hasMessageContainingAll("Invalid money input Exception", inputMoney.getAmount() + "");
   }
@@ -84,8 +81,8 @@ class BankTest {
     Money customerBalance = customer.getBalance(inputMoney.getCurrency());
 
     assertThatThrownBy(() -> bank.withdraw(customerBalance, inputMoney))
-        .isInstanceOf(InvalidInputException.class)
-        .hasMessageContainingAll("Invalid money input Exception", inputMoney.getAmount() + "");
+        .isInstanceOf(InvalidWithdrawInputException.class)
+        .hasMessageContainingAll(inputMoney.getAmount()+"", " is over your balance");
   }
 
   @Test
@@ -96,7 +93,7 @@ class BankTest {
     when(repository.findById(customer.getCustomerId())).thenReturn(customer);
     Money customerBalance = customer.getBalance(inputMoney.getCurrency());
 
-    assertThatThrownBy(() -> bank.mainProcess(customer.getCustomerId(), inputMoney, 1))
+    assertThatThrownBy(() -> bank.withdraw(customerBalance, inputMoney))
         .isInstanceOf(InvalidWithdrawInputException.class)
         .hasMessageContainingAll(inputMoney.getAmount() + " is over your balance");
   }
@@ -104,15 +101,34 @@ class BankTest {
   //동일 국적 화폐로 환전 시도
   @ParameterizedTest
   @ValueSource(strings = {"WON", "DOLLAR"})
-  void bank_exchangeEqualCurrenty_thenThrowEqualCurrencyException(String currencyType) {
+  void bank_exchangeEqualCurrency_thenThrowEqualCurrencyException(String currencyType) {
     Currency currency = Currency.valueOf(currencyType);
     Money inputMoney = new Money(currency, 1000);
 
     Currency wantToChange = currency;
 
-    assertThatThrownBy(() -> bank.exchangeProcess(inputMoney, wantToChange)).isInstanceOf(
-        EqualCurrencyException.class).hasMessageContaining("You are trying to exchange same " + currency );
+    assertThatThrownBy(() -> bank.exchangeProcess(inputMoney, wantToChange))
+            .isInstanceOf(EqualCurrencyException.class)
+            .hasMessageContaining("You are trying to exchange same " + currency );
 
+  }
+  //exchangeTest
+  @ParameterizedTest
+  @ValueSource(strings = {"WON", "DOLLAR"})
+  void bank_exchangeFee(String currencyType) {
+    Currency currency = Currency.valueOf(currencyType);
+    Money inputMoney = new Money(currency, 1000);
+
+
+  }
+  @Test
+  void bank_exchangeDollarToKorean() {
+    Money inputMoney = new Money(Currency.DOLLAR, 1000);
+
+    Money result = bank.exchangeProcess(inputMoney, Currency.DOLLAR);
+
+    assertThat(result.getCurrency()).isEqualTo(Currency.WON);
+    assertThat(result.getAmount()).isEqualTo(inputMoney.getAmount() * 1000);
   }
 
   //없는 화폐

@@ -3,6 +3,7 @@ package com.nhnacademy.gw1.bank;
 import com.nhnacademy.gw1.customer.Customer;
 import com.nhnacademy.gw1.customer.CustomerRepository;
 import com.nhnacademy.gw1.exception.CustomerNotFoundException;
+import com.nhnacademy.gw1.exception.EqualCurrencyException;
 import com.nhnacademy.gw1.exception.InvalidInputException;
 import com.nhnacademy.gw1.exception.InvalidWithdrawInputException;
 import com.nhnacademy.gw1.money.Currency;
@@ -12,48 +13,31 @@ public class Bank {
 
   private final CustomerRepository customerRepository;
 
-  private final int DEPOSIT = 0;
-  private final int WITHDRAW = 1;
-  private final int EXCHANGE = 2;
-
   public Bank(CustomerRepository customerRepository) {
     this.customerRepository = customerRepository;
   }
 
-  public void mainProcess(String customerId, Money inputMoney, int todo) {
+  public void mainProcess(String customerId, Money inputMoney, String todo) {
     checkInvalidInput(inputMoney);
 
     Customer customer = getCustomerData(customerId);
 
     switch (todo) {
-      case DEPOSIT:
+      case "DEPOSIT":
         depositProcess(customer, inputMoney);
         break;
-      case WITHDRAW:
+      case "WITHDRAW":
         withdrawProcess(customer, inputMoney);
         break;
-      case EXCHANGE:
-        //exchangeProcess(inputMoney, wantToChange);
+      default:
         break;
     }
   }
 
-  public void mainProcess(String customerId, Money inputMoney, int todo, Currency wantToChange) {
+  public void mainProcess(Money inputMoney, Currency wantToChange) {
     checkInvalidInput(inputMoney);
 
-    Customer customer = getCustomerData(customerId);
-
-    switch (todo) {
-      case DEPOSIT:
-        depositProcess(customer, inputMoney);
-        break;
-      case WITHDRAW:
-        withdrawProcess(customer, inputMoney);
-        break;
-      case EXCHANGE:
-        exchangeProcess(inputMoney, wantToChange);
-        break;
-    }
+    exchangeProcess(inputMoney, wantToChange);
   }
 
   public void depositProcess(Customer customer, Money inputMoney) {
@@ -87,12 +71,16 @@ public class Bank {
     return customerBalance.getAmount() - inputMoney.getAmount();
   }
 
-  public void exchangeProcess(Money inputMoney, Currency exchangeToThis) {
-    if (inputMoney.getCurrency() != exchangeToThis) {
-      if (inputMoney.getCurrency() == Currency.WON) {
-        // exchangeWonToDollar()
-      }
+  public Money exchangeProcess(Money inputMoney, Currency exchangeToThis) {
+    if (inputMoney.getCurrency() == exchangeToThis) {
+      throw new EqualCurrencyException(inputMoney.getCurrency());
     }
+    Money resultMoney;
+    if (inputMoney.getCurrency() == Currency.WON) {
+
+    }
+  }
+  public Money exchangeKo2Dollar(Money inputMoney) {
 
   }
 
