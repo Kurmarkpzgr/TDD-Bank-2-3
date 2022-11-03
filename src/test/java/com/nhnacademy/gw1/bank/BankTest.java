@@ -12,12 +12,16 @@ import com.nhnacademy.gw1.exception.InvalidInputException;
 import com.nhnacademy.gw1.exception.InvalidWithdrawInputException;
 import com.nhnacademy.gw1.money.Currency;
 import com.nhnacademy.gw1.money.Money;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
+@Slf4j
 class BankTest {
+
+  final double EXCHANGE_FEE = 0.015;
 
   //SUT
   Bank bank;
@@ -82,7 +86,7 @@ class BankTest {
 
     assertThatThrownBy(() -> bank.withdraw(customerBalance, inputMoney))
         .isInstanceOf(InvalidWithdrawInputException.class)
-        .hasMessageContainingAll(inputMoney.getAmount()+"", " is over your balance");
+        .hasMessageContainingAll(inputMoney.getAmount() + "", " is over your balance");
   }
 
   @Test
@@ -108,10 +112,11 @@ class BankTest {
     Currency wantToChange = currency;
 
     assertThatThrownBy(() -> bank.exchangeProcess(inputMoney, wantToChange))
-            .isInstanceOf(EqualCurrencyException.class)
-            .hasMessageContaining("You are trying to exchange same " + currency );
+        .isInstanceOf(EqualCurrencyException.class)
+        .hasMessageContaining("You are trying to exchange same " + currency);
 
   }
+
   //exchangeTest
   @ParameterizedTest
   @ValueSource(strings = {"WON", "DOLLAR"})
@@ -119,19 +124,44 @@ class BankTest {
     Currency currency = Currency.valueOf(currencyType);
     Money inputMoney = new Money(currency, 1000);
 
+    double result = bank.exchangeFee(inputMoney);
 
+    assertThat(result).isEqualTo(inputMoney.getAmount() * EXCHANGE_FEE);
   }
-  @Test
-  void bank_exchangeDollarToKorean() {
-    Money inputMoney = new Money(Currency.DOLLAR, 1000);
 
-    Money result = bank.exchangeProcess(inputMoney, Currency.DOLLAR);
+  @Test
+  void bank_exchangeDollarToWon() {
+    Money inputMoney = new Money(Currency.DOLLAR, 5.25);
+
+    Money result = bank.exchangeDollarToWon(inputMoney);
 
     assertThat(result.getCurrency()).isEqualTo(Currency.WON);
     assertThat(result.getAmount()).isEqualTo(inputMoney.getAmount() * 1000);
   }
 
-  //없는 화폐
-  //능력 부족
+  @Test
+  void bank_exchangeWonToDollar() {
+    Money inputMoney = new Money(Currency.WON, 4321);
+
+    Money result = bank.exchangeWonToDollar(inputMoney);
+
+    double exchange = inputMoney.getAmount()/1000;
+
+    assertThat(result.getCurrency()).isEqualTo(Currency.DOLLAR);
+    assertThat(result.getAmount()).isEqualTo((double)Math.round(exchange * 100) / 100);
+    log.info(result.getAmount() +"");
+  }
+
+ @Test
+  void exchange_TotalDollarToWonTest(){
+   Money inputMoney = new Money(Currency.DOLLAR, 4000);
+
+   double payedAmount = bank.exchangeFee(inputMoney);
+
+   Money result =bank.exchangeProcess(inputMoney, Currency.WON);
+
+   assertThat(result.getCurrency()).isEqualTo(Currency.WON);
+   assertThat(result.getAmount()).isEqualTo(payedAmount*1000);
+ }
 
 }

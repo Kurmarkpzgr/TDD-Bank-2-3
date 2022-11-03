@@ -72,17 +72,41 @@ public class Bank {
   }
 
   public Money exchangeProcess(Money inputMoney, Currency exchangeToThis) {
-    if (inputMoney.getCurrency() == exchangeToThis) {
-      throw new EqualCurrencyException(inputMoney.getCurrency());
-    }
-    Money resultMoney;
-    if (inputMoney.getCurrency() == Currency.WON) {
+    if (inputMoney.getCurrency() != exchangeToThis) {
+      inputMoney = new Money(inputMoney.getCurrency(),
+          inputMoney.getAmount() - exchangeFee(inputMoney));
 
+      if (inputMoney.getCurrency() == Currency.WON) {
+        return exchangeWonToDollar(inputMoney);
+      }
+      if (inputMoney.getCurrency() == Currency.DOLLAR) {
+        return exchangeDollarToWon(inputMoney);
+      }
     }
+    throw new EqualCurrencyException(inputMoney.getCurrency());
   }
-  public Money exchangeKo2Dollar(Money inputMoney) {
 
+  public Money exchangeWonToDollar(Money inputMoney) {
+    Currency currency = Currency.DOLLAR;
+    double exchangedPayload = inputMoney.getAmount()/1000;
+    double rounded =  (double)Math.round(exchangedPayload * 100) / 100;
+
+    Money exchangedMoney = new Money(currency, rounded);
+    return exchangedMoney;
   }
+
+  public Money exchangeDollarToWon(Money inputMoney) {
+    Currency currency = Currency.WON;
+    double changedMoney = inputMoney.getAmount() * 1000;
+    Money exchangedMoney = new Money(currency, changedMoney);
+    return exchangedMoney;
+  }
+
+  public double exchangeFee(Money inputMoney) {
+    double exchangeFee = 0.015;
+    return inputMoney.getAmount() * exchangeFee;
+  }
+
 
   public void checkInvalidInput(Money inputMoney) {
     if (inputMoney.getAmount() < 0) {
