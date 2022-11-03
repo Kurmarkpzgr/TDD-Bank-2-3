@@ -41,18 +41,6 @@ public class Bank {
 
 
     Money originalBalance = customer.getBalance(currency);
-
-    deposit(originalBalance, inputMoney);
-
-  }
-  private void exchangeProcess(Money inputMoney) {
-  }
-
-  private void withdrawProcess(Customer customer, Money inputMoney) {
-
-  }
-
-  public double deposit(Money originalBalance, Money inputMoney) {
     return originalBalance.getAmount() + inputMoney.getAmount();
   }
 
