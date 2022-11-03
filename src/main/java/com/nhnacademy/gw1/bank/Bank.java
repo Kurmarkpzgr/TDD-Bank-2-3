@@ -36,20 +36,39 @@ public class Bank {
     }
   }
   public void depositProcess(Customer customer, Money inputMoney){
-
     Currency currency = inputMoneyTypeCheck(inputMoney);
 
-
     Money originalBalance = customer.getBalance(currency);
+
+    deposit(originalBalance, inputMoney);
+  }
+  public double deposit(Money originalBalance, Money inputMoney) {
     return originalBalance.getAmount() + inputMoney.getAmount();
   }
 
   public Currency inputMoneyTypeCheck(Money inputMoney) {
     return inputMoney.getCurrency();
   }
+
+  private void withdrawProcess(Customer customer, Money inputMoney) {
+    Currency currency = inputMoneyTypeCheck(inputMoney);
+
+    Money originalBalance = customer.getBalance(currency);
+
+    withdraw(originalBalance, inputMoney);
+  }
+  public double withdraw(Money customerBalance, Money inputMoney) {
+    if(customerBalance.getAmount() < inputMoney.getAmount()) {
+      throw new InvalidInputException(inputMoney.getAmount());
+    }
+    return customerBalance.getAmount() - inputMoney.getAmount();
+  }
+
+  private void exchangeProcess(Money inputMoney) {
+  }
   public void checkInvalidInput(Money inputMoney) {
     if(inputMoney.getAmount() < 0) {
-      throw new InvalidInputException(inputMoney);
+      throw new InvalidInputException(inputMoney.getAmount());
     }
   }
   public Customer getCustomerData(String customerId) {
