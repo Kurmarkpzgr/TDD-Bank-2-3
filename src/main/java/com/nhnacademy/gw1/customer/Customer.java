@@ -2,25 +2,23 @@ package com.nhnacademy.gw1.customer;
 
 import com.nhnacademy.gw1.money.Currency;
 import com.nhnacademy.gw1.money.Money;
-
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 public class Customer {
+
   private final String customerId;
   private String password;
 
-  private HashMap<Integer, Money> balance;
+  private final HashMap<Integer, Money> balance = new HashMap<>() {{
+      put(Currency.WON.ordinal(), new Money(Currency.WON, 0));
+      put(Currency.DOLLAR.ordinal(), new Money(Currency.DOLLAR, 0));
+    }};
 
 
   public Customer(String customerId, String password) {
     this.customerId = customerId;
     this.password = password;
 
-    balance = new HashMap<>();
-    balance.put(Currency.WON.ordinal(), new Money(Currency.WON, 0));
-    balance.put(Currency.DOLLAR.ordinal(), new Money(Currency.DOLLAR, 0));
 
   }
 
