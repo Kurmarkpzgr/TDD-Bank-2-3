@@ -4,15 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="af12420a-89d5-4756-a652-353b2e02e36b" name="Changes" comment="init Commit">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/nhnacademy/gw1/exception/CustomerNotFoundException.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/nhnacademy/gw1/money/Currency.java" afterDir="false" />
+    <list default="true" id="af12420a-89d5-4756-a652-353b2e02e36b" name="Changes" comment="secondCommit">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/nhnacademy/gw1/bank/Bank.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/nhnacademy/gw1/bank/Bank.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/nhnacademy/gw1/customer/Customer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/nhnacademy/gw1/customer/Customer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/nhnacademy/gw1/exception/InvalidInputException.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/nhnacademy/gw1/exception/InvalidInputException.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/nhnacademy/gw1/money/Money.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/nhnacademy/gw1/money/Money.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/nhnacademy/gw1/money/Won.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/java/com/nhnacademy/gw1/bank/BankTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/nhnacademy/gw1/bank/BankTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -64,6 +58,9 @@
     <key name="CreateTestDialog.RecentsKey">
       <recent name="com.nhnacademy.gw1.bank" />
     </key>
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="com.nhnacademy.gw1.exception" />
+    </key>
   </component>
   <component name="RunManager">
     <configuration name="BankTest.bank_depositSuccess" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
@@ -112,7 +109,14 @@
       <option name="project" value="LOCAL" />
       <updated>1667441551872</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="secondCommit">
+      <created>1667451802035</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1667451802035</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -132,6 +136,7 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="firstCommit" />
     <MESSAGE value="init Commit" />
-    <option name="LAST_COMMIT_MESSAGE" value="init Commit" />
+    <MESSAGE value="secondCommit" />
+    <option name="LAST_COMMIT_MESSAGE" value="secondCommit" />
   </component>
 </project>

@@ -19,13 +19,10 @@ public class Bank {
   }
 
   public void mainProcess(String customerId, Money inputMoney, int todo) {
-    if(inputMoney.getAmount() < 0) {
-      throw new InvalidInputException(inputMoney);
-    }
-    Customer customer;
-    if((customer = customerRepository.findById(customerId)) == null) {
-      throw new CustomerNotFoundException(customerId);
-    }
+    checkInvalidInput(inputMoney);
+
+    Customer customer = getCustomerData(customerId);
+
     switch (todo) {
       case DEPOSIT:
         depositProcess(customer, inputMoney);
@@ -33,34 +30,46 @@ public class Bank {
       case WITHDRAW:
         withdrawProcess(customer, inputMoney);
         break;
-      case EXCHANGE: 
+      case EXCHANGE:
         exchangeProcess(inputMoney);
         break;
     }
   }
+  public void depositProcess(Customer customer, Money inputMoney){
 
+    Currency currency = inputMoneyTypeCheck(inputMoney);
+
+
+    Money originalBalance = customer.getBalance(currency);
+
+    deposit(originalBalance, inputMoney);
+
+  }
   private void exchangeProcess(Money inputMoney) {
   }
 
   private void withdrawProcess(Customer customer, Money inputMoney) {
-    
-  }
 
-  public void depositProcess(Customer customer, Money inputMoney){
-    
-    Currency currency = inputMoneyTypeCheck(inputMoney);
-    
-    
-    Money originalBalance = customer.getBalance(currency);
-    
-    deposit(originalBalance, inputMoney);
-    
   }
 
   public double deposit(Money originalBalance, Money inputMoney) {
     return originalBalance.getAmount() + inputMoney.getAmount();
   }
+
   public Currency inputMoneyTypeCheck(Money inputMoney) {
     return inputMoney.getCurrency();
+  }
+  public void checkInvalidInput(Money inputMoney) {
+    if(inputMoney.getAmount() < 0) {
+      throw new InvalidInputException(inputMoney);
+    }
+  }
+  public Customer getCustomerData(String customerId) {
+    Customer customer;
+
+    if((customer = customerRepository.findById(customerId)) == null) {
+      throw new CustomerNotFoundException(customerId);
+    }
+    return customer;
   }
 }

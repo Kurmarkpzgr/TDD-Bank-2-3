@@ -1,11 +1,5 @@
 package com.nhnacademy.gw1.bank;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-
 import com.nhnacademy.gw1.customer.Customer;
 import com.nhnacademy.gw1.customer.CustomerRepository;
 import com.nhnacademy.gw1.exception.InvalidInputException;
@@ -14,6 +8,11 @@ import com.nhnacademy.gw1.money.Money;
 import com.nhnacademy.gw1.money.Won;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 class BankTest {
 
