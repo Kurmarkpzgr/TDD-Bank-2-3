@@ -1,19 +1,21 @@
 package com.nhnacademy.gw1.bank;
 
-import com.nhnacademy.gw1.customer.Customer;
-import com.nhnacademy.gw1.customer.CustomerRepository;
-import com.nhnacademy.gw1.exception.InvalidInputException;
-import com.nhnacademy.gw1.money.Currency;
-import com.nhnacademy.gw1.money.Money;
-import com.nhnacademy.gw1.money.Won;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+import com.nhnacademy.gw1.customer.Customer;
+import com.nhnacademy.gw1.customer.CustomerRepository;
+import com.nhnacademy.gw1.exception.InvalidInputException;
+import com.nhnacademy.gw1.exception.InvalidWithdrawInputException;
+import com.nhnacademy.gw1.money.Currency;
+import com.nhnacademy.gw1.money.Money;
+import lombok.extern.slf4j.Slf4j;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+@Slf4j
 class BankTest {
 
   //SUT
@@ -34,47 +36,70 @@ class BankTest {
   }
 
 
-  //입금 성공 실패
+  //입금 성공
   @Test
-  void bank_depositSuccess() {
-    Currency currencyType = Currency.WON;
-    Money inputMoney =  new Money(currencyType, 1000);
+  void bank_wonDepositSuccess() {
+    Currency currency = Currency.WON;
+    Money inputMoney = new Money(currency, 1000);
 
     when(repository.findById(customer.getCustomerId())).thenReturn(customer);
-
-    Money customerBalance = customer.getBalance(currencyType);
+    Money customerBalance = customer.getBalance(inputMoney.getCurrency());
 
     double result = bank.deposit(customerBalance, inputMoney);
     assertThat(result).isNotNull();
-    assertThat(result).isEqualTo(customerBalance.addMoney(inputMoney));
+    assertThat(result).isEqualTo(customerBalance.getAmount() + inputMoney.getAmount());
   }
 
+  //달러 입금
   @Test
-  void bank_depositFailure() {
-    Money inputMoney = new Won(1000L);
+  void bank_dollarDepositSuccess() {
+    Currency currency = Currency.DOLLAR;
+    Money inputMoney = new Money(currency, 4);
 
     when(repository.findById(customer.getCustomerId())).thenReturn(customer);
-    Money customerBalance = customer.getWonBalance();
+    Money customerBalance = customer.getBalance(inputMoney.getCurrency());
 
-    assertThatThrownBy(()-> bank.deposit(customerBalance, inputMoney))
-        .isInstanceOf(InvalidInputException.class)
-        .hasMessageContainingAll("Invalid money input Exception", inputMoney.toString());
+    double result = bank.deposit(customerBalance, inputMoney);
+    assertThat(result).isNotNull();
+    assertThat(result).isEqualTo(customerBalance.getAmount() + inputMoney.getAmount());
   }
-  @Test
-  void bank_depositFailure_NotEqualCurrency() {
 
+
+  //음수 여부 체크
+  @Test
+  void bank_depositFailure_thenThrowInvalidInputException() {
+    Currency currency = Currency.WON;
+    Money inputMoney = new Money(currency, -1000);
+
+    assertThatThrownBy(() -> bank.inputMoneyValidCheck(inputMoney.getAmount()))
+        .isInstanceOf(InvalidInputException.class)
+        .hasMessageContainingAll("Invalid money input Exception" + inputMoney.getAmount());
   }
 
   //금액 비교 성공 실패
   @Test
-  void bank_compareSuccess() {
+  void bank_widthdrawInputError_thenTrowInvalidWithdrawInputException() {
+    Currency currency = Currency.WON;
+    Money inputMoney = new Money(currency, 1000);
+
+    when(repository.findById(customer.getCustomerId())).thenReturn(customer);
+    Money customerBalance = customer.getBalance(inputMoney.getCurrency());
+
+    assertThatThrownBy(() -> bank.withdraw(customerBalance,inputMoney))
+        .isInstanceOf(InvalidWithdrawInputException.class)
+        .hasMessageContainingAll(inputMoney.getAmount() + " is over your balance");
 
   }
 
-  @Test
-  void bank_compareFailure() {
-
-  }
+  //현재 능력 바깥
+//  @Test
+//  void bank_invalidCurrency_thenThrowInvalidCurrencyException() {
+//    Currency currency = Currency.valueOf("YEN");
+//    Money inputMoney = new Money(currency, 1000);
+//
+//        assertThatThrownBy(() -> bank.inputMoneyTypeCheck(inputMoney))
+//            .isInstanceOf(IllegalArgumentException.class);
+//  }
 
   //음수 여부 확인
   @Test
