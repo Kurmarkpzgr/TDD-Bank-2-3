@@ -17,35 +17,41 @@ public class Bank {
     this.customerRepository = customerRepository;
   }
 
-  public void mainProcess(String customerId, Money inputMoney, String todo) {
+  public Money mainProcess(String customerId, Money inputMoney, String todo) {
     checkInvalidInput(inputMoney);
 
     Customer customer = getCustomerData(customerId);
 
+    Money money = new Money(Currency.WON, 100);
     switch (todo) {
       case "DEPOSIT":
-        depositProcess(customer, inputMoney);
+        money = depositProcess(customer, inputMoney);
         break;
       case "WITHDRAW":
-        withdrawProcess(customer, inputMoney);
-        break;
-      default:
+        money = withdrawProcess(customer, inputMoney);
         break;
     }
+    customer.renewBalance(money);
+    return money;
   }
 
-  public void mainProcess(Money inputMoney, Currency wantToChange) {
+  public Money mainProcess(Money inputMoney, Currency wantToChange) {
     checkInvalidInput(inputMoney);
 
-    exchangeProcess(inputMoney, wantToChange);
+    Money exchangedMoney = exchangeProcess(inputMoney, wantToChange);
+
+    return exchangedMoney;
   }
 
-  public void depositProcess(Customer customer, Money inputMoney) {
+  public Money depositProcess(Customer customer, Money inputMoney) {
     Currency currency = inputMoneyTypeCheck(inputMoney);
 
     Money originalBalance = customer.getBalance(currency);
 
-    deposit(originalBalance, inputMoney);
+    double deposited = deposit(originalBalance, inputMoney);
+    Money resultMoney = new Money(inputMoney.getCurrency(), deposited);
+
+    return resultMoney;
   }
 
   public double deposit(Money originalBalance, Money inputMoney) {
@@ -56,12 +62,15 @@ public class Bank {
     return inputMoney.getCurrency();
   }
 
-  private void withdrawProcess(Customer customer, Money inputMoney) {
+  public Money withdrawProcess(Customer customer, Money inputMoney) {
     Currency currency = inputMoneyTypeCheck(inputMoney);
 
     Money originalBalance = customer.getBalance(currency);
 
-    withdraw(originalBalance, inputMoney);
+    double deposited = withdraw(originalBalance, inputMoney);
+    Money resultMoney = new Money(inputMoney.getCurrency(), deposited);
+
+    return resultMoney;
   }
 
   public double withdraw(Money customerBalance, Money inputMoney) {
@@ -72,18 +81,55 @@ public class Bank {
   }
 
   public Money exchangeProcess(Money inputMoney, Currency exchangeToThis) {
-    if (inputMoney.getCurrency() != exchangeToThis) {
-      inputMoney = new Money(inputMoney.getCurrency(),
-              inputMoney.getAmount() - exchangeFee(inputMoney));
+    if (inputMoney.getCurrency() == exchangeToThis) {
+      throw new EqualCurrencyException(inputMoney.getCurrency());
+    }
+    inputMoney = new Money(inputMoney.getCurrency(),
+            inputMoney.getAmount() - exchangeFee(inputMoney));
 
-      if (inputMoney.getCurrency() == Currency.WON) {
-        return exchangeWonToDollar(inputMoney);
-      }
-      if (inputMoney.getCurrency() == Currency.DOLLAR) {
-        return exchangeDollarToWon(inputMoney);
+    if ((inputMoney.getCurrency() == Currency.DOLLAR && exchangeToThis == Currency.EURO) || (
+            inputMoney.getCurrency() == Currency.EURO && exchangeToThis == Currency.DOLLAR)) {
+
+      throw new InvalidExchangeRequestException(exchangeToThis);
+    }
+    Money exchangedMoney = null;
+    if (inputMoney.getCurrency() == Currency.WON) {
+      if (exchangeToThis == Currency.DOLLAR) {
+        exchangedMoney = exchangeWonToDollar(inputMoney);
+      } else {
+        exchangedMoney = exchangeWonToEuro(inputMoney);
       }
     }
-    throw new EqualCurrencyException(inputMoney.getCurrency());
+    else if(inputMoney.getCurrency() == Currency.DOLLAR) {
+      exchangedMoney = exchangeDollarToWon(inputMoney);
+    }
+    else if(inputMoney.getCurrency() == Currency.EURO) {
+      exchangedMoney = exchangeEuroToWon(inputMoney);
+    }
+
+
+
+
+    return exchangedMoney;
+  }
+
+
+
+  public Money exchangeWonToEuro(Money inputMoney) {
+    Currency currency = Currency.EURO;
+    double exchangedPayload = inputMoney.getAmount()/1300;
+    double rounded =  (double)Math.round(exchangedPayload * 100) / 100;
+
+    Money exchangedMoney = new Money(currency, rounded);
+    return exchangedMoney;
+  }
+  public Money exchangeEuroToWon(Money inputMoney) {
+    Currency currency = Currency.WON;
+    double exchangedPayload = inputMoney.getAmount() * 1300;
+    double rounded =  (double)Math.round(exchangedPayload * 100) / 100;
+
+    Money exchangedMoney = new Money(currency, rounded);
+    return exchangedMoney;
   }
 
   public Money exchangeWonToDollar(Money inputMoney) {
@@ -98,15 +144,22 @@ public class Bank {
   public Money exchangeDollarToWon(Money inputMoney) {
     Currency currency = Currency.WON;
     double changedMoney = inputMoney.getAmount() * 1000;
-    Money exchangedMoney = new Money(currency, changedMoney);
+    double rounded = Math.round(changedMoney/10)*10;
+
+    Money exchangedMoney = new Money(currency, rounded);
     return exchangedMoney;
   }
 
   public double exchangeFee(Money inputMoney) {
     double exchangeFee = 0.015;
+
     return inputMoney.getAmount() * exchangeFee;
   }
-
+  public void checkInvalidInput(Money inputMoney) {
+    if (inputMoney.getAmount() < 0) {
+      throw new InvalidInputException(inputMoney.getAmount());
+    }
+  }
 
   public Customer getCustomerData(String customerId) {
     Customer customer;

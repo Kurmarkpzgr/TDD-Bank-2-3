@@ -12,6 +12,7 @@ public class Customer {
   private final HashMap<Integer, Money> balance = new HashMap<>() {{
       put(Currency.WON.ordinal(), new Money(Currency.WON, 0));
       put(Currency.DOLLAR.ordinal(), new Money(Currency.DOLLAR, 0));
+      put(Currency.EURO.ordinal(), new Money(Currency.EURO, 0));
     }};
 
 
@@ -28,5 +29,8 @@ public class Customer {
 
   public Money getBalance(Currency balanceCurrency) {
     return balance.get(balanceCurrency.ordinal());
+  }
+  public void renewBalance(Money newMoney){
+    balance.replace(newMoney.getCurrency().ordinal(), newMoney);
   }
 }

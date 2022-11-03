@@ -4,9 +4,16 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="af12420a-89d5-4756-a652-353b2e02e36b" name="Changes" comment="exchange commint">
+    <list default="true" id="af12420a-89d5-4756-a652-353b2e02e36b" name="Changes" comment="test commint">
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/nhnacademy/gw1/bank/InvalidExchangeRequestException.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/com/nhnacademy/gw1/bank/BankMockTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/com/nhnacademy/gw1/money/MoneyTest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/nhnacademy/gw1/bank/Bank.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/nhnacademy/gw1/bank/Bank.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/nhnacademy/gw1/customer/Customer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/nhnacademy/gw1/customer/Customer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/nhnacademy/gw1/money/Currency.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/nhnacademy/gw1/money/Currency.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/nhnacademy/gw1/money/Money.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/nhnacademy/gw1/money/Money.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/java/com/nhnacademy/gw1/bank/BankTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/nhnacademy/gw1/bank/BankTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -17,9 +24,9 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="JUnit5 Test Class" />
         <option value="Interface" />
         <option value="Enum" />
+        <option value="JUnit5 Test Class" />
         <option value="Class" />
       </list>
     </option>
@@ -54,17 +61,21 @@
   }
 }</component>
   <component name="RecentsManager">
+    <key name="CreateClassDialog.RecentsKey">
+      <recent name="com.nhnacademy.gw1.bank" />
+    </key>
     <key name="CreateTestDialog.Recents.Supers">
       <recent name="" />
     </key>
     <key name="CreateTestDialog.RecentsKey">
+      <recent name="com.nhnacademy.gw1.money" />
       <recent name="com.nhnacademy.gw1.bank" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
       <recent name="com.nhnacademy.gw1.exception" />
     </key>
   </component>
-  <component name="RunManager" selected="JUnit.BankTest.exchange_TotalDollarToWonTest">
+  <component name="RunManager" selected="JUnit.BankTest.bank_exchangeEuroToWon">
     <configuration name="BankTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="TDD-Bank-2-3" />
       <extension name="coverage">
@@ -80,7 +91,7 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="BankTest.bank_exchangeDollarToWon" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="BankTest.bank_depositProcessSuccess" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="TDD-Bank-2-3" />
       <extension name="coverage">
         <pattern>
@@ -90,13 +101,13 @@
       </extension>
       <option name="PACKAGE_NAME" value="com.nhnacademy.gw1.bank" />
       <option name="MAIN_CLASS_NAME" value="com.nhnacademy.gw1.bank.BankTest" />
-      <option name="METHOD_NAME" value="bank_exchangeDollarToWon" />
+      <option name="METHOD_NAME" value="bank_depositProcessSuccess(java.lang.String)" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="BankTest.bank_exchangeEqualCurrency_thenThrowEqualCurrencyException" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="BankTest.bank_exchangeEuroToWon" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="TDD-Bank-2-3" />
       <extension name="coverage">
         <pattern>
@@ -106,13 +117,13 @@
       </extension>
       <option name="PACKAGE_NAME" value="com.nhnacademy.gw1.bank" />
       <option name="MAIN_CLASS_NAME" value="com.nhnacademy.gw1.bank.BankTest" />
-      <option name="METHOD_NAME" value="bank_exchangeEqualCurrency_thenThrowEqualCurrencyException(java.lang.String)" />
+      <option name="METHOD_NAME" value="bank_exchangeEuroToWon" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="BankTest.bank_exchangeWonToDollar" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="BankTest.bank_exchangeWonToEuro" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="TDD-Bank-2-3" />
       <extension name="coverage">
         <pattern>
@@ -122,13 +133,13 @@
       </extension>
       <option name="PACKAGE_NAME" value="com.nhnacademy.gw1.bank" />
       <option name="MAIN_CLASS_NAME" value="com.nhnacademy.gw1.bank.BankTest" />
-      <option name="METHOD_NAME" value="bank_exchangeWonToDollar" />
+      <option name="METHOD_NAME" value="bank_exchangeWonToEuro(double)" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="BankTest.exchange_TotalDollarToWonTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="BankTest.bank_mainProcessExchangeDollarToWonTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="TDD-Bank-2-3" />
       <extension name="coverage">
         <pattern>
@@ -138,7 +149,7 @@
       </extension>
       <option name="PACKAGE_NAME" value="com.nhnacademy.gw1.bank" />
       <option name="MAIN_CLASS_NAME" value="com.nhnacademy.gw1.bank.BankTest" />
-      <option name="METHOD_NAME" value="exchange_TotalDollarToWonTest" />
+      <option name="METHOD_NAME" value="bank_mainProcessExchangeDollarToWonTest" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -146,11 +157,11 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="JUnit.BankTest.exchange_TotalDollarToWonTest" />
-        <item itemvalue="JUnit.BankTest.bank_exchangeDollarToWon" />
-        <item itemvalue="JUnit.BankTest.bank_exchangeWonToDollar" />
-        <item itemvalue="JUnit.BankTest.bank_exchangeEqualCurrency_thenThrowEqualCurrencyException" />
+        <item itemvalue="JUnit.BankTest.bank_exchangeEuroToWon" />
+        <item itemvalue="JUnit.BankTest.bank_exchangeWonToEuro" />
         <item itemvalue="JUnit.BankTest" />
+        <item itemvalue="JUnit.BankTest.bank_mainProcessExchangeDollarToWonTest" />
+        <item itemvalue="JUnit.BankTest.bank_depositProcessSuccess" />
       </list>
     </recent_temporary>
   </component>
@@ -165,6 +176,7 @@
       <workItem from="1667440983212" duration="973000" />
       <workItem from="1667463064656" duration="81000" />
       <workItem from="1667463229513" duration="10000" />
+      <workItem from="1667463306430" duration="6007000" />
     </task>
     <task id="LOCAL-00001" summary="firstCommit">
       <created>1667441089871</created>
@@ -201,7 +213,14 @@
       <option name="project" value="LOCAL" />
       <updated>1667459937253</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="test commint">
+      <created>1667463318135</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1667463318136</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -224,6 +243,7 @@
     <MESSAGE value="secondCommit" />
     <MESSAGE value="secondCommit2" />
     <MESSAGE value="exchange Second Commit" />
-    <option name="LAST_COMMIT_MESSAGE" value="exchange Second Commit" />
+    <MESSAGE value="test commint" />
+    <option name="LAST_COMMIT_MESSAGE" value="test commint" />
   </component>
 </project>
